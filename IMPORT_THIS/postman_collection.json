@@ -1,0 +1,290 @@
+{
+  "info": {
+    "name": "REST API Jual Beli - PKL",
+    "description": "Collection lengkap REST API Jual Beli menggunakan Golang + PostgreSQL",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:9000"
+    }
+  ],
+  "item": [
+    {
+      "name": "Master Produk",
+      "item": [
+        {
+          "name": "GET All Produk",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/produk",
+            "description": "Ambil semua data produk"
+          }
+        },
+        {
+          "name": "GET Produk by ID",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/produk/1",
+            "description": "Ambil produk berdasarkan ID"
+          }
+        },
+        {
+          "name": "POST Create Produk",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/produk",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"kode\": \"P002\",\n  \"nama_produk\": \"KEYBOARD\"\n}"
+            },
+            "description": "Buat produk baru"
+          }
+        },
+        {
+          "name": "PUT Update Produk",
+          "request": {
+            "method": "PUT",
+            "url": "{{base_url}}/produk/1",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"kode\": \"P001\",\n  \"nama_produk\": \"HEADSET GAMING\"\n}"
+            },
+            "description": "Update produk berdasarkan ID"
+          }
+        },
+        {
+          "name": "DELETE Produk",
+          "request": {
+            "method": "DELETE",
+            "url": "{{base_url}}/produk/1",
+            "description": "Hapus produk berdasarkan ID"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Master Mitra Bisnis",
+      "item": [
+        {
+          "name": "GET All Mitra",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/mitra",
+            "description": "Ambil semua data mitra bisnis"
+          }
+        },
+        {
+          "name": "GET Mitra by ID",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/mitra/1",
+            "description": "Ambil mitra bisnis berdasarkan ID"
+          }
+        },
+        {
+          "name": "POST Create Mitra",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/mitra",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"kode\": \"M001\",\n  \"nama\": \"PT Maju Jaya\",\n  \"tipe_mitra\": \"supplier\"\n}"
+            },
+            "description": "Buat mitra bisnis baru"
+          }
+        },
+        {
+          "name": "PUT Update Mitra",
+          "request": {
+            "method": "PUT",
+            "url": "{{base_url}}/mitra/1",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"kode\": \"M001\",\n  \"nama\": \"PT Maju Jaya Sejahtera\",\n  \"tipe_mitra\": \"supplier\"\n}"
+            },
+            "description": "Update mitra bisnis berdasarkan ID"
+          }
+        },
+        {
+          "name": "DELETE Mitra",
+          "request": {
+            "method": "DELETE",
+            "url": "{{base_url}}/mitra/1",
+            "description": "Hapus mitra bisnis berdasarkan ID"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Master Gudang",
+      "item": [
+        {
+          "name": "GET All Gudang",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/gudang",
+            "description": "Ambil semua data gudang"
+          }
+        },
+        {
+          "name": "GET Gudang by ID",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/gudang/1",
+            "description": "Ambil gudang berdasarkan ID"
+          }
+        },
+        {
+          "name": "POST Create Gudang",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/gudang",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"kode\": \"G001\",\n  \"nama\": \"Gudang Utama\"\n}"
+            },
+            "description": "Buat gudang baru"
+          }
+        },
+        {
+          "name": "PUT Update Gudang",
+          "request": {
+            "method": "PUT",
+            "url": "{{base_url}}/gudang/1",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"kode\": \"G001\",\n  \"nama\": \"Gudang Utama Jakarta\"\n}"
+            },
+            "description": "Update gudang berdasarkan ID"
+          }
+        },
+        {
+          "name": "DELETE Gudang",
+          "request": {
+            "method": "DELETE",
+            "url": "{{base_url}}/gudang/1",
+            "description": "Hapus gudang berdasarkan ID"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Transaksi Pembelian",
+      "item": [
+        {
+          "name": "GET All Pembelian",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/pembelian",
+            "description": "Ambil semua transaksi pembelian"
+          }
+        },
+        {
+          "name": "GET Pembelian by ID",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/pembelian/1",
+            "description": "Ambil transaksi pembelian berdasarkan ID"
+          }
+        },
+        {
+          "name": "POST Create Pembelian",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/pembelian",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"header\": {\n    \"trxno\": \"PB-003\",\n    \"bp_id\": 3,\n    \"tgl\": \"2026-03-09T00:00:00Z\",\n    \"diskon\": 0\n  },\n  \"details\": [\n    {\n      \"gudang_id\": 1,\n      \"item_id\": 2,\n      \"qty\": 10,\n      \"harga\": 5000,\n      \"diskon\": 0\n    }\n  ]\n}"
+            },
+            "description": "Buat transaksi pembelian baru. Stok otomatis bertambah."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Transaksi Penjualan",
+      "item": [
+        {
+          "name": "GET All Penjualan",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/penjualan",
+            "description": "Ambil semua transaksi penjualan"
+          }
+        },
+        {
+          "name": "GET Penjualan by ID",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/penjualan/1",
+            "description": "Ambil transaksi penjualan berdasarkan ID"
+          }
+        },
+        {
+          "name": "POST Create Penjualan",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/penjualan",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"header\": {\n    \"trxno\": \"PJ-002\",\n    \"bp_id\": 3,\n    \"tgl\": \"2026-03-09T00:00:00Z\",\n    \"diskon\": 0\n  },\n  \"details\": [\n    {\n      \"gudang_id\": 1,\n      \"item_id\": 2,\n      \"qty\": 3,\n      \"harga\": 7000,\n      \"diskon\": 0\n    }\n  ]\n}"
+            },
+            "description": "Buat transaksi penjualan baru. Stok otomatis berkurang. Akan error jika stok tidak cukup."
+          }
+        },
+        {
+          "name": "POST Penjualan - Stok Tidak Cukup (Error Test)",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/penjualan",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"header\": {\n    \"trxno\": \"PJ-ERROR\",\n    \"bp_id\": 3,\n    \"tgl\": \"2026-03-09T00:00:00Z\",\n    \"diskon\": 0\n  },\n  \"details\": [\n    {\n      \"gudang_id\": 1,\n      \"item_id\": 2,\n      \"qty\": 9999,\n      \"harga\": 7000,\n      \"diskon\": 0\n    }\n  ]\n}"
+            },
+            "description": "Test error validasi stok tidak mencukupi"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Laporan",
+      "item": [
+        {
+          "name": "GET Rekap Per Faktur",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/laporan/faktur",
+            "description": "Laporan rekap penjualan per faktur: trxno, tgl, bp_id, total"
+          }
+        },
+        {
+          "name": "GET Rekap Per Item",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/laporan/item",
+            "description": "Laporan rekap penjualan per item: nama produk, total qty terjual, total nilai"
+          }
+        },
+        {
+          "name": "GET Lihat Stok",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/laporan/stok",
+            "description": "Lihat stok saat ini: nama gudang, nama produk, qty"
+          }
+        }
+      ]
+    }
+  ]
+}
