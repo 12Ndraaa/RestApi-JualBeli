@@ -20,9 +20,7 @@ func (h *LaporanHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	path = strings.Trim(path, "/")
 
 	if r.Method != http.MethodGet {
-		writeJSON(w, http.StatusMethodNotAllowed, map[string]string{
-			"error": "method ga diizinkan",
-		})
+		writeJSON(w, http.StatusMethodNotAllowed, "method ga diizinkan", nil)
 		return
 	}
 
@@ -34,35 +32,33 @@ func (h *LaporanHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	case "stok":
 		h.LihatStok(w, r)
 	default:
-		writeJSON(w, http.StatusNotFound, map[string]string{
-			"error": "endpoint tidak ditemukan",
-		})
+		writeJSON(w, http.StatusNotFound, "endpoint gaada", nil)
 	}
 }
 
 func (h *LaporanHandler) RekapPerFaktur(w http.ResponseWriter, r *http.Request) {
 	result, err := h.svc.RekapPerFaktur()
 	if err != nil {
-		writeJSON(w, http.StatusInternalServerError, map[string]string{"error": err.Error()})
+		writeJSON(w, http.StatusInternalServerError, err.Error(), nil)
 		return
 	}
-	writeJSON(w, http.StatusOK, result)
+		writeJSON(w, http.StatusOK, "success", result)
 }
 
 func (h *LaporanHandler) RekapPerItem(w http.ResponseWriter, r *http.Request) {
 	result, err := h.svc.RekapPerItem()
 	if err != nil {
-		writeJSON(w, http.StatusInternalServerError, map[string]string{"error": err.Error()})
+		writeJSON(w, http.StatusInternalServerError, err.Error(), nil)
 		return
 	}
-	writeJSON(w, http.StatusOK, result)
+	writeJSON(w, http.StatusOK, "success", result)
 }
 
 func (h *LaporanHandler) LihatStok(w http.ResponseWriter, r *http.Request) {
 	result, err := h.svc.LihatStok()
 	if err != nil {
-		writeJSON(w, http.StatusInternalServerError, map[string]string{"error": err.Error()})
+		writeJSON(w, http.StatusInternalServerError, err.Error(), nil)
 		return
 	}
-	writeJSON(w, http.StatusOK, result)
+	writeJSON(w, http.StatusOK, "success", result)
 }

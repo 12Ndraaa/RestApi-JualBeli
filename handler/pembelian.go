@@ -30,26 +30,20 @@ func (h *PembelianHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		case http.MethodPost:
 			h.Create(w, r)
 		default:
-			writeJSON(w, http.StatusMethodNotAllowed, map[string]string{
-				"error": "method ga diizinkan",
-			})
+			writeJSON(w, http.StatusMethodNotAllowed, "method ga diizinin", nil)
 		}
 	} else {
 		// /pembelian/1
 		id, err := strconv.Atoi(path)
 		if err != nil {
-			writeJSON(w, http.StatusBadRequest, map[string]string{
-				"error": "id ga valid",
-			})
+			writeJSON(w, http.StatusBadRequest, "id ga valid", nil)
 			return
 		}
 		switch r.Method {
 		case http.MethodGet:
 			h.GetById(w, r, id)
 		default:
-			writeJSON(w, http.StatusMethodNotAllowed, map[string]string{
-				"error": "method ga diizinkan",
-			})
+			writeJSON(w, http.StatusMethodNotAllowed, "method ga diizinin", nil)
 		}
 	}
 }
@@ -57,19 +51,19 @@ func (h *PembelianHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 func (h *PembelianHandler) GetAll(w http.ResponseWriter, r *http.Request) {
 	result, err := h.svc.GetAll()
 	if err != nil {
-		writeJSON(w, http.StatusInternalServerError, map[string]string{"error": err.Error()})
+		writeJSON(w, http.StatusInternalServerError, err.Error(), nil)
 		return
 	}
-	writeJSON(w, http.StatusOK, result)
+	writeJSON(w, http.StatusOK, "success", result)
 }
 
 func (h *PembelianHandler) GetById(w http.ResponseWriter, r *http.Request, id int) {
 	result, err := h.svc.GetById(id)
 	if err != nil {
-		writeJSON(w, http.StatusNotFound, map[string]string{"error": err.Error()})
+		writeJSON(w, http.StatusNotFound, err.Error(), nil)
 		return
 	}
-	writeJSON(w, http.StatusOK, result)
+	writeJSON(w, http.StatusOK, "success", result)
 }
 
 func (h *PembelianHandler) Create(w http.ResponseWriter, r *http.Request) {
@@ -79,14 +73,14 @@ func (h *PembelianHandler) Create(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
-		writeJSON(w, http.StatusBadRequest, map[string]string{"error": "request tidak valid"})
+		writeJSON(w, http.StatusBadRequest, "request ga valid", nil)
 		return
 	}
 
 	result, err := h.svc.Create(&req.Header, req.Details)
 	if err != nil {
-		writeJSON(w, http.StatusBadRequest, map[string]string{"error": err.Error()})
+		writeJSON(w, http.StatusBadRequest, err.Error(), nil)
 		return
 	}
-	writeJSON(w, http.StatusCreated, result)
+	writeJSON(w, http.StatusCreated, "success", result)
 }

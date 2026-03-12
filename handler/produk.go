@@ -19,37 +19,34 @@ func NewProdukHandler(service service.ProdukService) *ProdukHandler {
 }
 
 // Helper ngirim response json
-func writeJSON(w http.ResponseWriter, status int, data any) {
+func writeJSON(w http.ResponseWriter, status int, message string, data interface{}) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(status)
-	json.NewEncoder(w).Encode(data)
+	json.NewEncoder(w).Encode(model.Response{
+		Status:  status,
+		Message: message,
+		Data:    data,
+	})
 }
 
 // Router ngarahin request ke method yg bener
 func (h *ProdukHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	// url /produk atau /produk/1
 	path := strings.TrimPrefix(r.URL.Path, "/produk")
 	path = strings.Trim(path, "/")
 
 	if path == "" {
-		// /produk
 		switch r.Method {
 		case http.MethodGet:
 			h.GetAll(w, r)
 		case http.MethodPost:
 			h.Create(w, r)
 		default:
-			writeJSON(w, http.StatusMethodNotAllowed, map[string]string{
-				"error": "method ga diizinkan",
-			})
+			writeJSON(w, http.StatusMethodNotAllowed, "method ga diizinkan", nil)
 		}
 	} else {
-		// /produk/1
 		id, err := strconv.Atoi(path)
 		if err != nil {
-			writeJSON(w, http.StatusBadRequest, map[string]string{
-				"error": "id ga valid",
-			})
+			writeJSON(w, http.StatusBadRequest, "id ga valid", nil)
 			return
 		}
 		switch r.Method {
@@ -60,9 +57,7 @@ func (h *ProdukHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		case http.MethodDelete:
 			h.Delete(w, r, id)
 		default:
-			writeJSON(w, http.StatusMethodNotAllowed, map[string]string{
-				"error": "method ga diizinkan",
-			})
+			writeJSON(w, http.StatusMethodNotAllowed, "method ga diizinkan", nil)
 		}
 	}
 }
@@ -71,75 +66,59 @@ func (h *ProdukHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 func (h *ProdukHandler) GetAll(w http.ResponseWriter, r *http.Request) {
 	data, err := h.service.GetAll()
 	if err != nil {
-		writeJSON(w, http.StatusInternalServerError, map[string]string{
-			"error": err.Error(),
-		})
+		writeJSON(w, http.StatusInternalServerError, err.Error(), nil)
 		return
 	}
-	writeJSON(w, http.StatusOK, data)
+	writeJSON(w, http.StatusOK, "success", data)
 }
 
 // respon per id
 func (h *ProdukHandler) GetById(w http.ResponseWriter, r *http.Request, id int) {
 	data, err := h.service.GetById(id)
 	if err != nil {
-		writeJSON(w, http.StatusNotFound, map[string]string{
-			"error": err.Error(),
-		})
+		writeJSON(w, http.StatusNotFound, err.Error(), nil)
 		return
 	}
-	writeJSON(w, http.StatusOK, data)
+	writeJSON(w, http.StatusOK, "success", data)
 }
 
 // parse & simpan
 func (h *ProdukHandler) Create(w http.ResponseWriter, r *http.Request) {
 	var p model.Produk
 	if err := json.NewDecoder(r.Body).Decode(&p); err != nil {
-		writeJSON(w, http.StatusBadRequest, map[string]string{
-			"error": "request body ga valid",
-		})
+		writeJSON(w, http.StatusBadRequest, "request body ga valid", nil)
 		return
 	}
 	data, err := h.service.Create(&p)
 	if err != nil {
-		writeJSON(w, http.StatusBadRequest, map[string]string{
-			"error": err.Error(),
-		})
+		writeJSON(w, http.StatusBadRequest, err.Error(), nil)
 		return
 	}
-	writeJSON(w, http.StatusCreated, data)
+	writeJSON(w, http.StatusCreated, "produk berhasil dibuat", data)
 }
 
 // parse & ubah
 func (h *ProdukHandler) Update(w http.ResponseWriter, r *http.Request, id int) {
 	var p model.Produk
 	if err := json.NewDecoder(r.Body).Decode(&p); err != nil {
-		writeJSON(w, http.StatusBadRequest, map[string]string{
-			"error": "request body ga valid",
-		})
+		writeJSON(w, http.StatusBadRequest, "request body ga valid", nil)
 		return
 	}
-	p.ID = id // jd yg dipke id dri url
+	p.ID = id
 
 	data, err := h.service.Update(&p)
 	if err != nil {
-		writeJSON(w, http.StatusBadRequest, map[string]string{
-			"error": err.Error(),
-		})
+		writeJSON(w, http.StatusBadRequest, err.Error(), nil)
 		return
 	}
-	writeJSON(w, http.StatusOK, data)
+	writeJSON(w, http.StatusOK, "produk berhasil diubah", data)
 }
 
 // panggil hapus
 func (h *ProdukHandler) Delete(w http.ResponseWriter, r *http.Request, id int) {
 	if err := h.service.Delete(id); err != nil {
-		writeJSON(w, http.StatusNotFound, map[string]string{
-			"error": err.Error(),
-		})
+		writeJSON(w, http.StatusNotFound, err.Error(), nil)
 		return
 	}
-	writeJSON(w, http.StatusOK, map[string]string{
-		"message": "produk sukses dihapus",
-	})
+	writeJSON(w, http.StatusOK, "produk berhasil dihapus", nil)
 }
