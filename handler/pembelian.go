@@ -54,6 +54,10 @@ func (h *PembelianHandler) GetAll(w http.ResponseWriter, r *http.Request) {
 		writeJSON(w, http.StatusInternalServerError, err.Error(), nil)
 		return
 	}
+	if len(result) == 0 {
+		writeJSON(w,http.StatusOK, "gaada pembelian samsek", nil)
+		return
+	}
 	writeJSON(w, http.StatusOK, "success", result)
 }
 

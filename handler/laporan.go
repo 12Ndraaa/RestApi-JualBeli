@@ -42,6 +42,10 @@ func (h *LaporanHandler) RekapPerFaktur(w http.ResponseWriter, r *http.Request) 
 		writeJSON(w, http.StatusInternalServerError, err.Error(), nil)
 		return
 	}
+	if len(result) == 0 {
+		writeJSON(w,http.StatusOK, "gaada data penjualan samsek", nil)
+		return
+	}
 		writeJSON(w, http.StatusOK, "success", result)
 }
 
@@ -51,6 +55,10 @@ func (h *LaporanHandler) RekapPerItem(w http.ResponseWriter, r *http.Request) {
 		writeJSON(w, http.StatusInternalServerError, err.Error(), nil)
 		return
 	}
+	if len(result) == 0 {
+		writeJSON(w,http.StatusOK, "gaada data item terjual samsek", nil)
+		return
+	}
 	writeJSON(w, http.StatusOK, "success", result)
 }
 
@@ -58,6 +66,10 @@ func (h *LaporanHandler) LihatStok(w http.ResponseWriter, r *http.Request) {
 	result, err := h.svc.LihatStok()
 	if err != nil {
 		writeJSON(w, http.StatusInternalServerError, err.Error(), nil)
+		return
+	}
+	if len(result) == 0 {
+		writeJSON(w,http.StatusOK, "stok kosong", nil)
 		return
 	}
 	writeJSON(w, http.StatusOK, "success", result)

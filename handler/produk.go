@@ -69,6 +69,10 @@ func (h *ProdukHandler) GetAll(w http.ResponseWriter, r *http.Request) {
 		writeJSON(w, http.StatusInternalServerError, err.Error(), nil)
 		return
 	}
+	if len(data) == 0 {
+		writeJSON(w,http.StatusOK, "gaada produk samsek", nil)
+		return
+	}
 	writeJSON(w, http.StatusOK, "success", data)
 }
 

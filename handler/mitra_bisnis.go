@@ -61,6 +61,10 @@ func (h *MitraBisnisHandler) GetAll(w http.ResponseWriter, r *http.Request) {
 		writeJSON(w, http.StatusInternalServerError, err.Error(), nil)
 		return
 	}
+	if len(data) == 0 {
+		writeJSON(w,http.StatusOK, "gaada mitra samsek", nil)
+		return
+	}
 	writeJSON(w, http.StatusOK, "success", data)
 }
 
